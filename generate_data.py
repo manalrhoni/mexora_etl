@@ -1,5 +1,3 @@
-# الفيشي: mexora_etl/generate_data.py
-
 import os
 import json
 import random

@@ -1,5 +1,3 @@
-# الفيشي: mexora_etl/transform/clean_clients.py
-
 import pandas as pd
 import logging
 from datetime import date

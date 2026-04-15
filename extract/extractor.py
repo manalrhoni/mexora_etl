@@ -1,5 +1,3 @@
-# الفيشي: mexora_etl/extract/extractor.py
-
 import pandas as pd
 import json
 import logging
@@ -9,7 +7,6 @@ def extract_commandes(filepath: str) -> pd.DataFrame:
     Extrait les commandes depuis le fichier CSV source.
     Retourne le DataFrame brut sans modification.
     """
-    # كنقراو الداتا كاملة على شكل String باش نتفاداو المشاكل ديال الفورما
     df = pd.read_csv(filepath, encoding='utf-8', dtype=str)  
     logging.info(f"[EXTRACT] Commandes : {len(df)} lignes extraites depuis {filepath}")
     return df

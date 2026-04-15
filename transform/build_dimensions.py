@@ -142,7 +142,6 @@ def build_fait_ventes(df_commandes: pd.DataFrame, dim_temps: pd.DataFrame, dim_c
     faits.rename(columns={'id_livreur': 'id_livreur_source'}, inplace=True)
     faits = faits.merge(dim_livreur[['id_livreur_nk', 'id_livreur']], left_on='id_livreur_source', right_on='id_livreur_nk', how='left')
     
-    # اختيار الأعمدة الضرورية فقط قبل التسمية باش نتفاداو التكرار
     cols_to_keep = [
         'id_date', 
         'id_produit_sk', 
@@ -160,7 +159,6 @@ def build_fait_ventes(df_commandes: pd.DataFrame, dim_temps: pd.DataFrame, dim_c
     
     faits_final = faits[cols_to_keep].copy()
     
-    # تبديل السميات باش يكونو بحال ديال PostgreSQL
     faits_final.rename(columns={
         'id_produit_sk': 'id_produit', 
         'id_client_sk': 'id_client', 

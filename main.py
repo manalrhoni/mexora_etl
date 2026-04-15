@@ -1,11 +1,8 @@
-# الفيشي: mexora_etl/main.py
-
 import logging
 from datetime import datetime
 import sqlalchemy
 import os
 
-# إعدادات الـ Logging باش يتسجل كولشي فدوسي logs/
 if not os.path.exists('logs'):
     os.makedirs('logs')
 
@@ -18,7 +15,6 @@ logging.basicConfig(
     ]
 )
 
-# استدعاء الملفات لي قادينا
 from extract.extractor import extract_commandes, extract_produits, extract_clients, extract_regions
 from transform.clean_commandes import transform_commandes
 from transform.clean_clients import transform_clients
@@ -53,10 +49,9 @@ def run_pipeline():
         dim_livreur  = build_dim_livreur(df_commandes)
         fait_ventes  = build_fait_ventes(df_commandes, dim_temps, dim_client, dim_produit, dim_region, dim_livreur)
 
-        # 3. LOAD (هنا غنحتاجو تكون عندنا داتابيز واجدة فـ PostgreSQL)
+        # 3. LOAD 
         logging.info("--- PHASE LOAD ---")
         
-        # ملاحظة: هاد السطر كيطلب تكونيكطا مع الباز دوني، غنشوفوه فـ Étape 3
         engine = sqlalchemy.create_engine("postgresql://postgres:manoula@localhost:5432/mexora_dwh")
         charger_dimension(dim_temps,   'dim_temps',   engine)
         charger_dimension(dim_client,  'dim_client',  engine)

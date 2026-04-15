@@ -1,5 +1,3 @@
-# الفيشي: mexora_etl/transform/clean_produits.py
-
 import pandas as pd
 import logging
 
