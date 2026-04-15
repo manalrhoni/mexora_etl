@@ -57,13 +57,13 @@ def run_pipeline():
         logging.info("--- PHASE LOAD ---")
         
         # ملاحظة: هاد السطر كيطلب تكونيكطا مع الباز دوني، غنشوفوه فـ Étape 3
-        # engine = sqlalchemy.create_engine("postgresql://user:pass@localhost/mexora_dwh")
-        # charger_dimension(dim_temps,   'dim_temps',   engine)
-        # charger_dimension(dim_client,  'dim_client',  engine)
-        # charger_dimension(dim_produit, 'dim_produit', engine)
-        # charger_dimension(dim_region,  'dim_region',  engine)
-        # charger_dimension(dim_livreur, 'dim_livreur', engine)
-        # charger_faits(fait_ventes, engine)
+        engine = sqlalchemy.create_engine("postgresql://postgres:manoula@localhost:5432/mexora_dwh")
+        charger_dimension(dim_temps,   'dim_temps',   engine)
+        charger_dimension(dim_client,  'dim_client',  engine)
+        charger_dimension(dim_produit, 'dim_produit', engine)
+        charger_dimension(dim_region,  'dim_region',  engine)
+        charger_dimension(dim_livreur, 'dim_livreur', engine)
+        charger_faits(fait_ventes, engine)
         
         logging.info("Phase Load en attente de l'Étape 3 (Création DWH).")
 

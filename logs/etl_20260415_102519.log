@@ -1,0 +1,116 @@
+2026-04-15 10:25:20,367 — INFO — ============================================================
+2026-04-15 10:25:20,368 — INFO — DÉMARRAGE PIPELINE ETL MEXORA
+2026-04-15 10:25:20,368 — INFO — ============================================================
+2026-04-15 10:25:20,369 — INFO — --- PHASE EXTRACT ---
+2026-04-15 10:25:20,453 — INFO — [EXTRACT] Commandes : 49999 lignes extraites depuis data/commandes_mexora.csv
+2026-04-15 10:25:20,454 — INFO — [EXTRACT] Produits : 100 lignes extraites
+2026-04-15 10:25:20,459 — INFO — [EXTRACT] Clients : 1020 lignes extraites depuis data/clients_mexora.csv
+2026-04-15 10:25:20,464 — INFO — [EXTRACT] Régions : 5 lignes extraites depuis data/regions_maroc.csv
+2026-04-15 10:25:20,464 — INFO — --- PHASE TRANSFORM ---
+2026-04-15 10:25:20,473 — INFO — [TRANSFORM] R1 doublons : 1500 lignes supprimées
+2026-04-15 10:25:21,427 — INFO — [TRANSFORM] R2 dates : 0 dates invalides supprimées
+2026-04-15 10:25:21,477 — WARNING — [TRANSFORM] R4 statuts : 0 valeurs non reconnues -> 'inconnu'
+2026-04-15 10:25:21,489 — INFO — [TRANSFORM] R5 quantités : 484 lignes supprimées (quantité <= 0)
+2026-04-15 10:25:21,506 — INFO — [TRANSFORM] R6 prix : 927 commandes test supprimées
+2026-04-15 10:25:21,512 — INFO — [TRANSFORM] R7 livreurs : 3388 valeurs manquantes remplacées par -1
+2026-04-15 10:25:21,512 — INFO — [TRANSFORM] Commandes : 49999 -> 47088 lignes (2911 supprimées au total)
+2026-04-15 10:25:21,526 — INFO — [TRANSFORM] Clients nettoyés : 1000 lignes restantes sur 1020
+2026-04-15 10:25:21,528 — INFO — [TRANSFORM] R1 Produits : Catégories standardisées
+2026-04-15 10:25:21,529 — INFO — [TRANSFORM] R2 Produits : 5 prix nuls remplacés par 0.0
+2026-04-15 10:25:21,529 — INFO — [TRANSFORM] Produits nettoyés : 100 lignes
+2026-04-15 10:25:21,562 — INFO — [BUILD] DIM_TEMPS : 2192 jours générés
+2026-04-15 10:25:21,582 — INFO — [BUILD] DIM_CLIENT : 1000 clients
+2026-04-15 10:25:21,586 — INFO — [BUILD] DIM_PRODUIT : 100 produits
+2026-04-15 10:25:21,587 — INFO — [BUILD] DIM_REGION : 5 régions
+2026-04-15 10:25:21,593 — INFO — [BUILD] DIM_LIVREUR : 11 livreurs
+2026-04-15 10:25:21,916 — INFO — [BUILD] FAIT_VENTES : 37022 lignes prêtes pour chargement
+2026-04-15 10:25:21,919 — INFO — --- PHASE LOAD ---
+2026-04-15 10:25:22,752 — ERROR — ERREUR PIPELINE : A column with name 'id_produit' is already present in table 'fait_ventes'.
+Traceback (most recent call last):
+  File "C:\Users\manal\OneDrive\Bureau\mexora_etl\main.py", line 66, in run_pipeline
+    charger_faits(fait_ventes, engine)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manal\OneDrive\Bureau\mexora_etl\load\loader.py", line 30, in charger_faits
+    df.to_sql(
+    ~~~~~~~~~^
+        name='fait_ventes',
+        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        chunksize=5000
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\util\_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\core\generic.py", line 3109, in to_sql
+    return sql.to_sql(
+           ~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<8 lines>...
+        method=method,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\sql.py", line 844, in to_sql
+    return pandas_sql.to_sql(
+           ~~~~~~~~~~~~~~~~~^
+        frame,
+        ^^^^^^
+    ...<9 lines>...
+        **engine_kwargs,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\sql.py", line 2020, in to_sql
+    table = self.prep_table(
+        frame=frame,
+    ...<5 lines>...
+        dtype=dtype,
+    )
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\sql.py", line 1914, in prep_table
+    table = SQLTable(
+        name,
+    ...<6 lines>...
+        dtype=dtype,
+    )
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\sql.py", line 960, in __init__
+    self.table = self._create_table_setup()
+                 ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\sql.py", line 1287, in _create_table_setup
+    return Table(self.name, meta, *columns, schema=schema)
+  File "<string>", line 2, in __new__
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\util\deprecations.py", line 281, in warned
+    return fn(*args, **kwargs)  # type: ignore[no-any-return]
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\schema.py", line 429, in __new__
+    return cls._new(*args, **kw)
+           ~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\schema.py", line 483, in _new
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 121, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\schema.py", line 479, in _new
+    table.__init__(name, metadata, *args, _no_init=False, **kw)  # type: ignore[misc] # noqa: E501
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\schema.py", line 873, in __init__
+    self._init_items(
+    ~~~~~~~~~~~~~~~~^
+        *args,
+        ^^^^^^
+    ...<3 lines>...
+        all_names={},
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\schema.py", line 233, in _init_items
+    spwd(self, **kw)
+    ~~~~^^^^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\base.py", line 1421, in _set_parent_with_dispatch
+    self._set_parent(parent, **kw)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\schema.py", line 2359, in _set_parent
+    raise exc.DuplicateColumnError(
+    ...<5 lines>...
+    )
+sqlalchemy.exc.DuplicateColumnError: A column with name 'id_produit' is already present in table 'fait_ventes'.

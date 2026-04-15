@@ -2,17 +2,19 @@
 
 import sqlalchemy
 import pandas as pd
+from sqlalchemy import text
 
 def charger_dimension(df: pd.DataFrame, table_name: str, engine, if_exists='replace'):
-    """
-    Charge une table de dimension dans PostgreSQL.
-    Stratégie : replace (truncate + reload) pour les dimensions.
-    """
+    # استعملنا text() باش بايثون يفهم بلي هادا كود SQL، و engine.begin() باش يـ valider
+    with engine.begin() as con:
+        con.execute(text(f"DROP TABLE IF EXISTS dwh_mexora.{table_name} CASCADE;"))
+    
+    # دابا غيلوح الداتا نقية
     df.to_sql(
         name=table_name,
         con=engine,
         schema='dwh_mexora',
-        if_exists=if_exists,
+        if_exists='replace',
         index=False,
         method='multi',
         chunksize=1000

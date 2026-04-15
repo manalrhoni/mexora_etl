@@ -1,0 +1,178 @@
+2026-04-15 10:01:14,299 — INFO — ============================================================
+2026-04-15 10:01:14,299 — INFO — DÉMARRAGE PIPELINE ETL MEXORA
+2026-04-15 10:01:14,299 — INFO — ============================================================
+2026-04-15 10:01:14,300 — INFO — --- PHASE EXTRACT ---
+2026-04-15 10:01:14,382 — INFO — [EXTRACT] Commandes : 49999 lignes extraites depuis data/commandes_mexora.csv
+2026-04-15 10:01:14,384 — INFO — [EXTRACT] Produits : 100 lignes extraites
+2026-04-15 10:01:14,389 — INFO — [EXTRACT] Clients : 1020 lignes extraites depuis data/clients_mexora.csv
+2026-04-15 10:01:14,431 — INFO — [EXTRACT] Régions : 5 lignes extraites depuis data/regions_maroc.csv
+2026-04-15 10:01:14,431 — INFO — --- PHASE TRANSFORM ---
+2026-04-15 10:01:14,439 — INFO — [TRANSFORM] R1 doublons : 1500 lignes supprimées
+2026-04-15 10:01:15,345 — INFO — [TRANSFORM] R2 dates : 0 dates invalides supprimées
+2026-04-15 10:01:15,385 — WARNING — [TRANSFORM] R4 statuts : 0 valeurs non reconnues -> 'inconnu'
+2026-04-15 10:01:15,396 — INFO — [TRANSFORM] R5 quantités : 484 lignes supprimées (quantité <= 0)
+2026-04-15 10:01:15,409 — INFO — [TRANSFORM] R6 prix : 927 commandes test supprimées
+2026-04-15 10:01:15,414 — INFO — [TRANSFORM] R7 livreurs : 3388 valeurs manquantes remplacées par -1
+2026-04-15 10:01:15,414 — INFO — [TRANSFORM] Commandes : 49999 -> 47088 lignes (2911 supprimées au total)
+2026-04-15 10:01:15,427 — INFO — [TRANSFORM] Clients nettoyés : 1000 lignes restantes sur 1020
+2026-04-15 10:01:15,429 — INFO — [TRANSFORM] R1 Produits : Catégories standardisées
+2026-04-15 10:01:15,430 — INFO — [TRANSFORM] R2 Produits : 5 prix nuls remplacés par 0.0
+2026-04-15 10:01:15,430 — INFO — [TRANSFORM] Produits nettoyés : 100 lignes
+2026-04-15 10:01:15,460 — INFO — [BUILD] DIM_TEMPS : 2192 jours générés
+2026-04-15 10:01:15,478 — INFO — [BUILD] DIM_CLIENT : 1000 clients
+2026-04-15 10:01:15,481 — INFO — [BUILD] DIM_PRODUIT : 100 produits
+2026-04-15 10:01:15,482 — INFO — [BUILD] DIM_REGION : 5 régions
+2026-04-15 10:01:15,487 — INFO — [BUILD] DIM_LIVREUR : 11 livreurs
+2026-04-15 10:01:15,779 — INFO — [BUILD] FAIT_VENTES : 37022 lignes prêtes pour chargement
+2026-04-15 10:01:15,781 — INFO — --- PHASE LOAD ---
+2026-04-15 10:01:15,971 — ERROR — ERREUR PIPELINE : (psycopg2.errors.DependentObjectsStillExist) cannot drop table dwh_mexora.dim_temps because other objects depend on it
+DETAIL:  constraint fait_ventes_id_date_fkey on table dwh_mexora.fait_ventes depends on table dwh_mexora.dim_temps
+materialized view reporting_mexora.mv_ca_mensuel depends on table dwh_mexora.dim_temps
+materialized view reporting_mexora.mv_top_produits depends on table dwh_mexora.dim_temps
+materialized view reporting_mexora.mv_performance_livreurs depends on table dwh_mexora.dim_temps
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+
+[SQL: 
+DROP TABLE dwh_mexora.dim_temps]
+(Background on this error at: https://sqlalche.me/e/20/2j85)
+Traceback (most recent call last):
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.DependentObjectsStillExist: cannot drop table dwh_mexora.dim_temps because other objects depend on it
+DETAIL:  constraint fait_ventes_id_date_fkey on table dwh_mexora.fait_ventes depends on table dwh_mexora.dim_temps
+materialized view reporting_mexora.mv_ca_mensuel depends on table dwh_mexora.dim_temps
+materialized view reporting_mexora.mv_top_produits depends on table dwh_mexora.dim_temps
+materialized view reporting_mexora.mv_performance_livreurs depends on table dwh_mexora.dim_temps
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\manal\OneDrive\Bureau\mexora_etl\main.py", line 61, in run_pipeline
+    charger_dimension(dim_temps,   'dim_temps',   engine)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manal\OneDrive\Bureau\mexora_etl\load\loader.py", line 11, in charger_dimension
+    df.to_sql(
+    ~~~~~~~~~^
+        name=table_name,
+        ^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        chunksize=1000
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\util\_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\core\generic.py", line 3109, in to_sql
+    return sql.to_sql(
+           ~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<8 lines>...
+        method=method,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\sql.py", line 844, in to_sql
+    return pandas_sql.to_sql(
+           ~~~~~~~~~~~~~~~~~^
+        frame,
+        ^^^^^^
+    ...<9 lines>...
+        **engine_kwargs,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\sql.py", line 2020, in to_sql
+    table = self.prep_table(
+        frame=frame,
+    ...<5 lines>...
+        dtype=dtype,
+    )
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\sql.py", line 1924, in prep_table
+    table.create()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\sql.py", line 990, in create
+    self.pd_sql.drop_table(self.name, self.schema)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\sql.py", line 2075, in drop_table
+    self.get_table(table_name, schema).drop(bind=self.con)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\schema.py", line 1300, in drop
+    bind._run_ddl_visitor(ddl.SchemaDropper, self, checkfirst=checkfirst)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 2467, in _run_ddl_visitor
+    ).traverse_single(element)
+      ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\visitors.py", line 661, in traverse_single
+    return meth(obj, **kw)
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\ddl.py", line 1209, in visit_table
+    DropTable(table)._invoke_with(self.connection)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\ddl.py", line 321, in _invoke_with
+    return bind.execute(self)
+           ~~~~~~~~~~~~^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\ddl.py", line 187, in _execute_on_connection
+    return connection._execute_ddl(
+           ~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 1530, in _execute_ddl
+    ret = self._execute_context(
+        dialect,
+    ...<4 lines>...
+        compiled,
+    )
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.InternalError: (psycopg2.errors.DependentObjectsStillExist) cannot drop table dwh_mexora.dim_temps because other objects depend on it
+DETAIL:  constraint fait_ventes_id_date_fkey on table dwh_mexora.fait_ventes depends on table dwh_mexora.dim_temps
+materialized view reporting_mexora.mv_ca_mensuel depends on table dwh_mexora.dim_temps
+materialized view reporting_mexora.mv_top_produits depends on table dwh_mexora.dim_temps
+materialized view reporting_mexora.mv_performance_livreurs depends on table dwh_mexora.dim_temps
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+
+[SQL: 
+DROP TABLE dwh_mexora.dim_temps]
+(Background on this error at: https://sqlalche.me/e/20/2j85)
