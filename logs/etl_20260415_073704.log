@@ -1,0 +1,34 @@
+2026-04-15 07:37:05,843 — INFO — ============================================================
+2026-04-15 07:37:05,850 — INFO — DÉMARRAGE PIPELINE ETL MEXORA
+2026-04-15 07:37:05,856 — INFO — ============================================================
+2026-04-15 07:37:05,864 — INFO — --- PHASE EXTRACT ---
+2026-04-15 07:37:05,878 — INFO — [EXTRACT] Commandes : 1 lignes extraites depuis data/commandes_mexora.csv
+2026-04-15 07:37:05,930 — INFO — [EXTRACT] Produits : 2 lignes extraites
+2026-04-15 07:37:05,965 — INFO — [EXTRACT] Clients : 1 lignes extraites depuis data/clients_mexora.csv
+2026-04-15 07:37:05,994 — INFO — [EXTRACT] Régions : 1 lignes extraites depuis data/regions_maroc.csv
+2026-04-15 07:37:05,995 — INFO — --- PHASE TRANSFORM ---
+2026-04-15 07:37:06,004 — INFO — [TRANSFORM] R1 doublons : 0 lignes supprimées
+2026-04-15 07:37:06,014 — ERROR — ERREUR PIPELINE : 'date_commande'
+Traceback (most recent call last):
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    return self._engine.get_loc(casted_key)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'date_commande'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\manal\OneDrive\Bureau\mexora_etl\main.py", line 45, in run_pipeline
+    df_commandes = transform_commandes(df_commandes_raw)
+  File "C:\Users\manal\OneDrive\Bureau\mexora_etl\transform\clean_commandes.py", line 26, in transform_commandes
+    df['date_commande'], format='mixed', dayfirst=True, errors='coerce'
+    ~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\core\frame.py", line 4113, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\core\indexes\base.py", line 3819, in get_loc
+    raise KeyError(key) from err
+KeyError: 'date_commande'

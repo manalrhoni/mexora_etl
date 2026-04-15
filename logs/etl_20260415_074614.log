@@ -1,0 +1,29 @@
+2026-04-15 07:46:15,724 — INFO — ============================================================
+2026-04-15 07:46:15,725 — INFO — DÉMARRAGE PIPELINE ETL MEXORA
+2026-04-15 07:46:15,726 — INFO — ============================================================
+2026-04-15 07:46:15,726 — INFO — --- PHASE EXTRACT ---
+2026-04-15 07:46:15,735 — INFO — [EXTRACT] Commandes : 5 lignes extraites depuis data/commandes_mexora.csv
+2026-04-15 07:46:15,738 — INFO — [EXTRACT] Produits : 2 lignes extraites
+2026-04-15 07:46:15,743 — INFO — [EXTRACT] Clients : 4 lignes extraites depuis data/clients_mexora.csv
+2026-04-15 07:46:15,750 — INFO — [EXTRACT] Régions : 3 lignes extraites depuis data/regions_maroc.csv
+2026-04-15 07:46:15,750 — INFO — --- PHASE TRANSFORM ---
+2026-04-15 07:46:15,752 — INFO — [TRANSFORM] R1 doublons : 1 lignes supprimées
+2026-04-15 07:46:15,762 — INFO — [TRANSFORM] R2 dates : 0 dates invalides supprimées
+2026-04-15 07:46:15,770 — WARNING — [TRANSFORM] R4 statuts : 0 valeurs non reconnues -> 'inconnu'
+2026-04-15 07:46:15,773 — INFO — [TRANSFORM] R5 quantités : 1 lignes supprimées (quantité <= 0)
+2026-04-15 07:46:15,775 — INFO — [TRANSFORM] R6 prix : 0 commandes test supprimées
+2026-04-15 07:46:15,777 — INFO — [TRANSFORM] R7 livreurs : 0 valeurs manquantes remplacées par -1
+2026-04-15 07:46:15,777 — INFO — [TRANSFORM] Commandes : 5 -> 3 lignes (2 supprimées au total)
+2026-04-15 07:46:15,802 — INFO — [TRANSFORM] Clients nettoyés : 3 lignes restantes sur 4
+2026-04-15 07:46:15,804 — INFO — [TRANSFORM] R1 Produits : Catégories standardisées
+2026-04-15 07:46:15,806 — INFO — [TRANSFORM] R2 Produits : 1 prix nuls remplacés par 0.0
+2026-04-15 07:46:15,807 — INFO — [TRANSFORM] Produits nettoyés : 2 lignes
+2026-04-15 07:46:15,903 — INFO — [BUILD] DIM_TEMPS : 2192 jours générés
+2026-04-15 07:46:15,923 — INFO — [BUILD] DIM_CLIENT : 3 clients
+2026-04-15 07:46:15,933 — INFO — [BUILD] DIM_PRODUIT : 2 produits
+2026-04-15 07:46:15,936 — INFO — [BUILD] DIM_REGION : 3 régions
+2026-04-15 07:46:15,943 — INFO — [BUILD] DIM_LIVREUR : 2 livreurs
+2026-04-15 07:46:15,979 — INFO — [BUILD] FAIT_VENTES : 1 lignes prêtes pour chargement
+2026-04-15 07:46:15,980 — INFO — --- PHASE LOAD ---
+2026-04-15 07:46:15,980 — INFO — Phase Load en attente de l'Étape 3 (Création DWH).
+2026-04-15 07:46:15,981 — INFO — PIPELINE TERMINÉ EN 0 secondes

@@ -1,0 +1,30 @@
+2026-04-15 07:29:26,165 — INFO — ============================================================
+2026-04-15 07:29:26,167 — INFO — DÉMARRAGE PIPELINE ETL MEXORA
+2026-04-15 07:29:26,168 — INFO — ============================================================
+2026-04-15 07:29:26,169 — INFO — --- PHASE EXTRACT ---
+2026-04-15 07:29:26,172 — ERROR — ERREUR PIPELINE : [Errno 2] No such file or directory: 'data/commandes_mexora.csv'
+Traceback (most recent call last):
+  File "C:\Users\manal\OneDrive\Bureau\mexora_etl\main.py", line 38, in run_pipeline
+    df_commandes_raw = extract_commandes('data/commandes_mexora.csv')
+  File "C:\Users\manal\OneDrive\Bureau\mexora_etl\extract\extractor.py", line 13, in extract_commandes
+    df = pd.read_csv(filepath, encoding='utf-8', dtype=str)
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\parsers\readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ~~~~~~~~~~^
+        f,
+        ^^
+    ...<6 lines>...
+        storage_options=self.options.get("storage_options", None),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\io\common.py", line 882, in get_handle
+    handle = open(handle, ioargs.mode)
+FileNotFoundError: [Errno 2] No such file or directory: 'data/commandes_mexora.csv'

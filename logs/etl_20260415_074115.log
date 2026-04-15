@@ -1,0 +1,39 @@
+2026-04-15 07:41:16,524 — INFO — ============================================================
+2026-04-15 07:41:16,538 — INFO — DÉMARRAGE PIPELINE ETL MEXORA
+2026-04-15 07:41:16,539 — INFO — ============================================================
+2026-04-15 07:41:16,539 — INFO — --- PHASE EXTRACT ---
+2026-04-15 07:41:16,547 — INFO — [EXTRACT] Commandes : 5 lignes extraites depuis data/commandes_mexora.csv
+2026-04-15 07:41:16,550 — INFO — [EXTRACT] Produits : 2 lignes extraites
+2026-04-15 07:41:16,554 — INFO — [EXTRACT] Clients : 4 lignes extraites depuis data/clients_mexora.csv
+2026-04-15 07:41:16,559 — INFO — [EXTRACT] Régions : 3 lignes extraites depuis data/regions_maroc.csv
+2026-04-15 07:41:16,560 — INFO — --- PHASE TRANSFORM ---
+2026-04-15 07:41:16,562 — INFO — [TRANSFORM] R1 doublons : 1 lignes supprimées
+2026-04-15 07:41:16,572 — INFO — [TRANSFORM] R2 dates : 0 dates invalides supprimées
+2026-04-15 07:41:16,589 — INFO — [TRANSFORM] R5 quantités : 1 lignes supprimées (quantité <= 0)
+2026-04-15 07:41:16,590 — INFO — [TRANSFORM] R6 prix : 0 commandes test supprimées
+2026-04-15 07:41:16,592 — INFO — [TRANSFORM] R7 livreurs : 0 valeurs manquantes remplacées par -1
+2026-04-15 07:41:16,618 — INFO — [TRANSFORM] Clients nettoyés : 3 lignes restantes sur 4
+2026-04-15 07:41:16,620 — INFO — [TRANSFORM] R1 Produits : Catégories standardisées
+2026-04-15 07:41:16,622 — INFO — [TRANSFORM] R2 Produits : 1 prix nuls remplacés par 0.0
+2026-04-15 07:41:16,622 — INFO — [TRANSFORM] Produits nettoyés : 2 lignes
+2026-04-15 07:41:16,703 — INFO — [BUILD] DIM_TEMPS : 2192 jours générés
+2026-04-15 07:41:16,716 — INFO — [BUILD] DIM_CLIENT : 3 clients
+2026-04-15 07:41:16,722 — INFO — [BUILD] DIM_PRODUIT : 2 produits
+2026-04-15 07:41:16,724 — INFO — [BUILD] DIM_REGION : 3 régions
+2026-04-15 07:41:16,728 — INFO — [BUILD] DIM_LIVREUR : 2 livreurs
+2026-04-15 07:41:16,755 — ERROR — ERREUR PIPELINE : "['id_livreur'] not in index"
+Traceback (most recent call last):
+  File "C:\Users\manal\OneDrive\Bureau\mexora_etl\main.py", line 54, in run_pipeline
+    fait_ventes  = build_fait_ventes(df_commandes, dim_temps, dim_client, dim_produit, dim_region, dim_livreur)
+  File "C:\Users\manal\OneDrive\Bureau\mexora_etl\transform\build_dimensions.py", line 144, in build_fait_ventes
+    faits_final = faits[cols_finales].copy()
+                  ~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\core\frame.py", line 4119, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\core\indexes\base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manal\AppData\Local\Programs\Python\Python314\Lib\site-packages\pandas\core\indexes\base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['id_livreur'] not in index"
